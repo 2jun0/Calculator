@@ -1,7 +1,3 @@
-/**
- * Calculator
- * Created by Notelessness on 2016-12-24.
- */
 public class NaturalExponentialPowerNodeNode extends ConstBasalPowerNode
 {
     protected final int EXPONENT_POSITION = 0;

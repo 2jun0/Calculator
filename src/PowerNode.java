@@ -1,7 +1,3 @@
-/**
- * Calculator
- * Created by Notelessness on 2016-12-24.
- */
 public class PowerNode extends EquationNode
 {
     protected final int BASE_POSITION = 0;
@@ -35,9 +31,24 @@ public class PowerNode extends EquationNode
     }
 
     @Override
-    public void differentiate(UnknownValue value, MultiplyBundleNode bundle)
+    public void differentiate(UnknownValue value, MultiplyBundleNode rootBundle)
     {
+        rootBundle.connectLowNode(clone());
+        PlusBundleNode plusBundleNode = new PlusBundleNode();
 
+        MultiplyBundleNode bundle1 = new MultiplyBundleNode();
+        getExponentNode().differentiate(value,bundle1);
+        bundle1.connectLowNode(new NaturalLogarithmNode(getBaseNode().clone()));
+
+        MultiplyBundleNode bundle2 = new MultiplyBundleNode();
+        getBaseNode().differentiate(value,bundle2);
+        bundle2.connectLowNode(getExponentNode());
+        bundle2.connectLowNode(new ConstExponentialPowerNode(getBaseNode(),-1));
+
+        plusBundleNode.connectLowNode(bundle1);
+        plusBundleNode.connectLowNode(bundle2);
+
+        rootBundle.connectLowNode(plusBundleNode);
     }
 
     @Override

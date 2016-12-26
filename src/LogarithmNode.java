@@ -1,7 +1,3 @@
-/**
- * Calculator
- * Created by Notelessness on 2016-12-26.
- */
 public class LogarithmNode extends EquationNode
 {
     protected final int BASE_POSITION = 0;

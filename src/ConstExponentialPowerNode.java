@@ -1,7 +1,3 @@
-/**
- * Calculator
- * Created by Notelessness on 2016-12-24.
- */
 public class ConstExponentialPowerNode extends PowerNode
 {
     public ConstExponentialPowerNode()

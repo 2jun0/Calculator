@@ -1,7 +1,3 @@
-/**
- * Calculator
- * Created by Notelessness on 2016-12-24.
- */
 public class NaturalLogarithmNode extends LogarithmNode
 {
     protected final int ANTILOGARITHM_POSITION = 0;

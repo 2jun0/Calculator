@@ -1,12 +1,8 @@
-/**
- * Calculator
- * Created by Notelessness on 2016-12-24.
- */
 public class Calculator
 {
 	private Calculator myCalculator = null;
 	private EquationTree tree = null;
-//er
+
 	public Calculator getInstance()
 	{
 		if(myCalculator == null)

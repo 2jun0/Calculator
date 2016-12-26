@@ -1,7 +1,3 @@
-/**
- * Calculator
- * Created by Notelessness on 2016-12-24.
- */
 import java.util.ArrayList;
 
 public abstract class EquationNode
