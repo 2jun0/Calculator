@@ -4,12 +4,13 @@ public class EquationTree
 {
 	private ArrayList<EquationNode> nodeArray;
 	private EquationNode rootNode;
+	private EquationNode lowestNode;
 	private boolean connectableToLowNode;
 	
 	public EquationTree()
 	{
 		nodeArray = new ArrayList<EquationNode>();
-		connectableToLowNode = true;
+		connectableToLowNode = false;
 	}
 
 	public EquationTree(EquationNode rootNode)
@@ -23,38 +24,56 @@ public class EquationTree
 		clearNode();
 		this.rootNode = rootNode;
 		nodeArray.add(rootNode);
+		connectableToLowNode = true;
 	}
 
 	public void clearNode()
 	{
 		nodeArray.clear();
 		rootNode = null;
+		lowestNode = null;
+		connectableToLowNode = false;
 	}
 	
 	public void connectLowNode(EquationNode... nodes)
 	{
-		if(nodes.length > 1)
-		{
-			connectableToLowNode = false;
+		connectableToLowNode = false;
+
+		for(EquationNode node : nodes) {
+			nodeArray.add(node);
+			lowestNode.connectLowNode(node);
 		}
 
-		for(EquationNode node : nodes)
-		{
-			nodeArray.add(node);
-		}
+		lowestNode = null;
 	}
 
-	public void connectLowNode(EquationTree... trees)
+	public void connectLowNode(EquationNode node)
 	{
-		if(trees.length > 1)
-		{
-			connectableToLowNode = false;
-		}
+		lowestNode.connectLowNode(node);
+		lowestNode = node;
+		nodeArray.add(node);
+	}
+
+	public void connectLowTree(EquationTree... trees)
+	{
+		connectableToLowNode = false;
 
 		for(EquationTree tree : trees)
 		{
-			nodeArray.add(tree.getRootNode());
+			EquationNode node = tree.getRootNode();
+			nodeArray.add(node);
+			lowestNode.connectLowNode(node);
 		}
+
+		lowestNode = null;
+	}
+
+	public void connectLowTree(EquationTree tree)
+	{
+		EquationNode node = tree.getRootNode();
+		lowestNode.connectLowNode(node);
+		lowestNode = node;
+		nodeArray.add(node);
 	}
 
 	public boolean isConnectableToLowNode()

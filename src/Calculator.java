@@ -1,7 +1,10 @@
+import java.util.ArrayList;
+
 public class Calculator
 {
 	private static Calculator myCalculator = null;
-	private EquationTree tree = null;
+	private int targetTreeIndex;
+	private ArrayList<EquationTree> treeArrayList = null;
 
 	public static Calculator getInstance()
 	{
@@ -15,31 +18,37 @@ public class Calculator
 	
 	private Calculator()
 	{
-		
+	    treeArrayList = new ArrayList<EquationTree>();
+		targetTreeIndex = 0;
 	}
 
 	public void setTargetTree(int index)
 	{
-		//empty
+		targetTreeIndex = index;
 	}
 
 	public void addEquationTree(EquationTree tree)
 	{
-		//empty
+		treeArrayList.add(tree);
 	}
+
+	public EquationTree[] getEquationTree()
+    {
+	    return treeArrayList.toArray(new EquationTree[treeArrayList.size()]);
+    }
+
+    public EquationTree getTargetTree()
+    {
+	    return treeArrayList.get(targetTreeIndex);
+    }
 
 	public double calculate(UnknownValue... unknownValues)
 	{
-		return tree.calculate(unknownValues);
+		return getTargetTree().calculate(unknownValues);
 	}
 
 	public EquationTree differentiate(UnknownValue unknownValue)
 	{
-		return  tree.differentiate(unknownValue);
-	}
-
-	public void setEquationTree(EquationTree tree)
-	{
-		this.tree = tree;
+		return  getTargetTree().differentiate(unknownValue);
 	}
 }
