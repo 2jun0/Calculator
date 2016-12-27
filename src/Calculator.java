@@ -10,7 +10,7 @@ public class Calculator
 			myCalculator = new Calculator();
 		}
 		
-		return myCalculator;
+		return myCalculator;//s
 	}
 	
 	private Calculator()
