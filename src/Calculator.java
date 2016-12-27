@@ -1,16 +1,16 @@
 public class Calculator
 {
-	private Calculator myCalculator = null;
+	private static Calculator myCalculator = null;
 	private EquationTree tree = null;
 
-	public Calculator getInstance()
+	public static Calculator getInstance()
 	{
 		if(myCalculator == null)
 		{
 			myCalculator = new Calculator();
 		}
 		
-		return myCalculator;//s
+		return myCalculator;
 	}
 	
 	private Calculator()
