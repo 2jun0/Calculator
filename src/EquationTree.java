@@ -4,15 +4,17 @@ public class EquationTree
 {
 	private ArrayList<EquationNode> nodeArray;
 	private EquationNode rootNode;
+	private boolean connectableToLowNode;
 	
 	public EquationTree()
 	{
 		nodeArray = new ArrayList<EquationNode>();
+		connectableToLowNode = true;
 	}
 
 	public EquationTree(EquationNode rootNode)
 	{
-		nodeArray = new ArrayList<EquationNode>();
+		this();
 		setRootNode(rootNode);
 	}
 
@@ -29,18 +31,48 @@ public class EquationTree
 		rootNode = null;
 	}
 	
-	public void connectUpperNode(EquationNode node)
+	public void connectLowNode(EquationNode... nodes)
 	{
-		rootNode.connectUpperNode(node);
-		rootNode = node;
+		if(nodes.length > 1)
+		{
+			connectableToLowNode = false;
+		}
+
+		for(EquationNode node : nodes)
+		{
+			nodeArray.add(node);
+		}
 	}
 
-	public double calculate(UnknownValue... unknownValues)
+	public void connectLowNode(EquationTree... trees)
+	{
+		if(trees.length > 1)
+		{
+			connectableToLowNode = false;
+		}
+
+		for(EquationTree tree : trees)
+		{
+			nodeArray.add(tree.getRootNode());
+		}
+	}
+
+	public boolean isConnectableToLowNode()
+	{
+		return connectableToLowNode;
+	}
+
+	public EquationNode getRootNode()
+	{
+		return rootNode;
+	}
+
+	protected double calculate(UnknownValue... unknownValues)
 	{
 		return rootNode.calculate(unknownValues);
 	}
 
-	public EquationTree differentiate(UnknownValue unknownValue)
+	protected EquationTree differentiate(UnknownValue unknownValue)
 	{
 		MultiplyBundleNode multiplyBundleNode = new MultiplyBundleNode();
 		rootNode.differentiate(unknownValue, multiplyBundleNode);

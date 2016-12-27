@@ -6,7 +6,7 @@ public class PlusBundleNode extends EquationNode
 	}
 	
 	@Override
-	public double calculate(UnknownValue[] value)
+	protected double calculate(UnknownValue[] value)
 	{
 		double sum = 0;
 		
@@ -19,7 +19,7 @@ public class PlusBundleNode extends EquationNode
 	}
 
 	@Override
-	public void differentiate(UnknownValue value, MultiplyBundleNode bundle)
+	protected void differentiate(UnknownValue value, MultiplyBundleNode bundle)
 	{
 		PlusBundleNode plusBundleNode = new PlusBundleNode();
 		

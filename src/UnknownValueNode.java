@@ -9,7 +9,7 @@ public class UnknownValueNode extends EquationNode
 	}
 
 	@Override
-	public double calculate(UnknownValue[] unknownValue)
+	protected double calculate(UnknownValue[] unknownValue)
 	{
 		for(UnknownValue value : unknownValue)
 		{
@@ -23,7 +23,7 @@ public class UnknownValueNode extends EquationNode
 	}
 
 	@Override
-	public void differentiate(UnknownValue value,MultiplyBundleNode bundle)
+	protected void differentiate(UnknownValue value, MultiplyBundleNode bundle)
 	{
 		if(value.getId() == id)
 		{

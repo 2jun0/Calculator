@@ -16,12 +16,12 @@ public class LogarithmNode extends EquationNode
     }
 
     @Override
-    public double calculate(UnknownValue... value) {
+    protected double calculate(UnknownValue... value) {
         return log(getBaseNode().calculate(value),getAntilogarithmNode().calculate(value));
     }
 
     @Override
-    public void differentiate(UnknownValue value, MultiplyBundleNode bundle)
+    protected void differentiate(UnknownValue value, MultiplyBundleNode bundle)
     {
         MultiplyBundleNode multiplyBundleNode = new MultiplyBundleNode();
         multiplyBundleNode.connectLowNode(new NaturalLogarithmNode(getAntilogarithmNode()));

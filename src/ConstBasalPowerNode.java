@@ -13,12 +13,12 @@ public class ConstBasalPowerNode extends PowerNode
     }
 
     @Override
-    public double calculate(UnknownValue... value) {
+    protected double calculate(UnknownValue... value) {
         return super.calculate(value);
     }
 
     @Override
-    public void differentiate(UnknownValue value, MultiplyBundleNode bundle) {
+    protected void differentiate(UnknownValue value, MultiplyBundleNode bundle) {
         bundle.connectLowNode(clone());
         bundle.connectLowNode(new ConstValueNode(Math.log(getBaseNode().calculate(null))));
         getExponentNode().differentiate(value,bundle);

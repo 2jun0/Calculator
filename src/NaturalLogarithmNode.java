@@ -26,13 +26,13 @@ public class NaturalLogarithmNode extends LogarithmNode
     }
 
     @Override
-    public double calculate(UnknownValue... value)
+    protected double calculate(UnknownValue... value)
     {
         return Math.log(getAntilogarithmNode().calculate(value));
     }
 
     @Override
-    public void differentiate(UnknownValue value, MultiplyBundleNode bundle)
+    protected void differentiate(UnknownValue value, MultiplyBundleNode bundle)
     {
         bundle.connectLowNode(new ConstExponentialPowerNode(getAntilogarithmNode().clone(),-1));
         getAntilogarithmNode().differentiate(value,bundle);

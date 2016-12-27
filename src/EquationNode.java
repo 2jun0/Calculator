@@ -9,8 +9,8 @@ public abstract class EquationNode
 		lowNodes = new ArrayList<EquationNode>();
 	}
 	
-	public abstract void differentiate(UnknownValue value, MultiplyBundleNode bundle);
-	public abstract double calculate(UnknownValue... value);
+	protected abstract void differentiate(UnknownValue value, MultiplyBundleNode bundle);
+	protected abstract double calculate(UnknownValue... value);
 	protected void connectUpperNode(EquationNode node)
 	{
 		node.connectLowNode(this);

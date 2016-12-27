@@ -9,13 +9,13 @@ public class ConstValueNode extends EquationNode
 	}
 
 	@Override
-	public double calculate(UnknownValue[] unknownValue)
+	protected double calculate(UnknownValue[] unknownValue)
 	{
 		return value;
 	}
 
 	@Override
-	public void differentiate(UnknownValue unknownValue, MultiplyBundleNode rootNode)
+	protected void differentiate(UnknownValue unknownValue, MultiplyBundleNode rootNode)
 	{
 		rootNode.connectLowNode(new ConstValueNode(0));
 	}

@@ -16,7 +16,7 @@ public class PowerNode extends EquationNode
     }
 
     @Override
-    public double calculate(UnknownValue... value) {
+    protected double calculate(UnknownValue... value) {
         return Math.pow(getBaseNode().calculate(value),getExponentNode().calculate(value));
     }
 
@@ -31,7 +31,7 @@ public class PowerNode extends EquationNode
     }
 
     @Override
-    public void differentiate(UnknownValue value, MultiplyBundleNode rootBundle)
+    protected void differentiate(UnknownValue value, MultiplyBundleNode rootBundle)
     {
         rootBundle.connectLowNode(clone());
         PlusBundleNode plusBundleNode = new PlusBundleNode();

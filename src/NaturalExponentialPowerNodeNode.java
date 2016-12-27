@@ -8,12 +8,12 @@ public class NaturalExponentialPowerNodeNode extends ConstBasalPowerNode
     }
 
     @Override
-    public double calculate(UnknownValue... value) {
+    protected double calculate(UnknownValue... value) {
         return Math.exp(lowNodes.get(0).calculate(value));
     }
 
     @Override
-    public void differentiate(UnknownValue value, MultiplyBundleNode multiplyBundleNode)
+    protected void differentiate(UnknownValue value, MultiplyBundleNode multiplyBundleNode)
     {
         multiplyBundleNode.connectLowNode(clone());
         getExponentNode().differentiate(value, multiplyBundleNode);

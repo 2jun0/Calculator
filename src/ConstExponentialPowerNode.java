@@ -18,7 +18,7 @@ public class ConstExponentialPowerNode extends PowerNode
     }
 
     @Override
-    public void differentiate(UnknownValue value, MultiplyBundleNode bundle)
+    protected void differentiate(UnknownValue value, MultiplyBundleNode bundle)
     {
         double exponentValue = getExponentNode().calculate(null);
         bundle.connectLowNode(new ConstValueNode(exponentValue));
