@@ -17,7 +17,17 @@ public class Calculator
 	{
 		
 	}
-	
+
+	public void setTargetTree(int index)
+	{
+		//empty
+	}
+
+	public void addEquationTree(EquationTree tree)
+	{
+		//empty
+	}
+
 	public double calculate(UnknownValue... unknownValues)
 	{
 		return tree.calculate(unknownValues);
@@ -28,7 +38,7 @@ public class Calculator
 		return  tree.differentiate(unknownValue);
 	}
 
-	public void addEquationTree(EquationTree tree)
+	public void setEquationTree(EquationTree tree)
 	{
 		this.tree = tree;
 	}
