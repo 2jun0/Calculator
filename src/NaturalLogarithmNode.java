@@ -37,4 +37,9 @@ public class NaturalLogarithmNode extends LogarithmNode
         bundle.connectLowNode(new ConstExponentialPowerNode(getAntilogarithmNode().clone(),-1));
         getAntilogarithmNode().differentiate(value,bundle);
     }
+
+    @Override
+    protected EquationNode clone() {
+        return new NaturalLogarithmNode(getAntilogarithmNode());
+    }
 }

@@ -19,5 +19,6 @@ public abstract class EquationNode
 	{
 		lowNodes.add(node);
 	}
+	@Override
 	protected abstract EquationNode clone();
 }
