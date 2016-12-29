@@ -7,6 +7,12 @@ public class NaturalExponentialPowerNodeNode extends ConstBasalPowerNode
         super();
     }
 
+    public NaturalExponentialPowerNodeNode(EquationNode antilogarithm)
+    {
+        this();
+        lowNodes.set(EXPONENT_POSITION,antilogarithm);
+    }
+
     @Override
     protected double calculate(UnknownValue... value) {
         return Math.exp(lowNodes.get(0).calculate(value));
@@ -24,7 +30,7 @@ public class NaturalExponentialPowerNodeNode extends ConstBasalPowerNode
         return null;
     }
 
-    protected  EquationNode getExponentNode()
+    protected EquationNode getExponentNode()
     {
         return lowNodes.get(EXPONENT_POSITION);
     }

@@ -20,7 +20,7 @@ public class NaturalLogarithmNode extends LogarithmNode
     }
 
     @Override
-    protected  EquationNode getAntilogarithmNode()
+    protected EquationNode getAntilogarithmNode()
     {
         return lowNodes.get(ANTILOGARITHM_POSITION);
     }

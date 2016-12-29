@@ -1,6 +1,6 @@
 public class ConstBasalPowerNode extends PowerNode
 {
-    public ConstBasalPowerNode()
+    protected ConstBasalPowerNode()
     {
         super();
     }

@@ -3,7 +3,7 @@ public class PowerNode extends EquationNode
     protected final int BASE_POSITION = 0;
     protected final int EXPONENT_POSITION = 1;
 
-    public PowerNode()
+    protected PowerNode()
     {
         super();
     }
@@ -25,7 +25,7 @@ public class PowerNode extends EquationNode
         return lowNodes.get(BASE_POSITION);
     }
 
-    protected  EquationNode getExponentNode()
+    protected EquationNode getExponentNode()
     {
         return lowNodes.get(EXPONENT_POSITION);
     }

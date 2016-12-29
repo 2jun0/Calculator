@@ -23,6 +23,7 @@ public class EquationTree
 	{
 		clearNode();
 		this.rootNode = rootNode;
+		this.lowestNode = rootNode;
 		nodeArray.add(rootNode);
 		connectableToLowNode = true;
 	}

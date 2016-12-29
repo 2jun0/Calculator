@@ -1,6 +1,6 @@
 public class ConstExponentialPowerNode extends PowerNode
 {
-    public ConstExponentialPowerNode()
+    protected ConstExponentialPowerNode()
     {
         super();
     }
