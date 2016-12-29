@@ -73,7 +73,7 @@ public class EquationTree
 	{
 		EquationNode node = tree.getRootNode();
 		lowestNode.connectLowNode(node);
-		lowestNode = node;
+		lowestNode = tree.getLowestNode();
 		nodeArray.add(node);
 	}
 
@@ -85,6 +85,11 @@ public class EquationTree
 	public EquationNode getRootNode()
 	{
 		return rootNode;
+	}
+
+	public EquationNode getLowestNode()
+	{
+		return lowestNode;
 	}
 
 	protected double calculate(UnknownValue... unknownValues)
