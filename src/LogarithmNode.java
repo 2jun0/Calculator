@@ -11,8 +11,8 @@ public class LogarithmNode extends EquationNode
     public LogarithmNode(EquationNode base,EquationNode antilogarithm)
     {
         this();
-        lowNodes.set(BASE_POSITION,base);
-        lowNodes.set(ANTILOGARITHM_POSITION,antilogarithm);
+        lowNodes.add(BASE_POSITION,base);
+        lowNodes.add(ANTILOGARITHM_POSITION,antilogarithm);
     }
 
     @Override

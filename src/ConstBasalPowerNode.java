@@ -4,12 +4,9 @@ public class ConstBasalPowerNode extends PowerNode
     {
         super();
     }
-
     public ConstBasalPowerNode(ConstValueNode constBase, EquationNode exponent)
     {
-        this();
-        lowNodes.set(BASE_POSITION,constBase);
-        lowNodes.set(EXPONENT_POSITION,exponent);
+        super(constBase,exponent);
     }
 
     @Override

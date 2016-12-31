@@ -11,8 +11,8 @@ public class PowerNode extends EquationNode
     public PowerNode(EquationNode base,EquationNode exponent)
     {
         this();
-        lowNodes.set(BASE_POSITION,base);
-        lowNodes.set(EXPONENT_POSITION,exponent);
+        lowNodes.add(BASE_POSITION,base);
+        lowNodes.add(EXPONENT_POSITION,exponent);
     }
 
     @Override

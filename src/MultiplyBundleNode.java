@@ -8,7 +8,7 @@ public class MultiplyBundleNode extends EquationNode
 	@Override
 	protected double calculate(UnknownValue[] value)
 	{
-		double sum = 0;
+		double sum = 1;
 
 		for(EquationNode node : lowNodes)
 		{

@@ -10,7 +10,7 @@ public class NaturalLogarithmNode extends LogarithmNode
     public NaturalLogarithmNode(EquationNode antilogarithm)
     {
         this();
-        lowNodes.set(ANTILOGARITHM_POSITION,antilogarithm);
+        lowNodes.add(ANTILOGARITHM_POSITION,antilogarithm);
     }
 
     @Override

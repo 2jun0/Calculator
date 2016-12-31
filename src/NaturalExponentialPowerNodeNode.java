@@ -10,7 +10,7 @@ public class NaturalExponentialPowerNodeNode extends ConstBasalPowerNode
     public NaturalExponentialPowerNodeNode(EquationNode antilogarithm)
     {
         this();
-        lowNodes.set(EXPONENT_POSITION,antilogarithm);
+        lowNodes.add(EXPONENT_POSITION,antilogarithm);
     }
 
     @Override

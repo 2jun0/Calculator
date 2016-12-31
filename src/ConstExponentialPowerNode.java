@@ -7,9 +7,7 @@ public class ConstExponentialPowerNode extends PowerNode
 
     public ConstExponentialPowerNode(EquationNode base,ConstValueNode constExponent)
     {
-        this();
-        lowNodes.set(BASE_POSITION,base);
-        lowNodes.set(EXPONENT_POSITION,constExponent);
+        super(base,constExponent);
     }
 
     public ConstExponentialPowerNode(EquationNode base,double exponentValue)
@@ -22,9 +20,7 @@ public class ConstExponentialPowerNode extends PowerNode
     {
         double exponentValue = getExponentNode().calculate(null);
         bundle.connectLowNode(new ConstValueNode(exponentValue));
-        MultiplyBundleNode multiplyBundleNode = new MultiplyBundleNode();
-        getBaseNode().differentiate(value, multiplyBundleNode);
-        bundle.connectLowNode(multiplyBundleNode);
+        getBaseNode().differentiate(value,bundle);
         bundle.connectLowNode(new ConstExponentialPowerNode(getBaseNode().clone(),new ConstValueNode(exponentValue-1)));
     }
 

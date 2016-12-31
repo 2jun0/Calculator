@@ -23,8 +23,9 @@ public class EquationTree
 	{
 		clearNode();
 		this.rootNode = rootNode;
-		this.lowestNode = rootNode;
+		this.lowestNode = rootNode.getLowestNode();
 		nodeArray.add(rootNode);
+		rootNode.getAllOfLowNode(nodeArray);
 		connectableToLowNode = true;
 	}
 
@@ -43,6 +44,7 @@ public class EquationTree
 		for(EquationNode node : nodes) {
 			nodeArray.add(node);
 			lowestNode.connectLowNode(node);
+			node.getAllOfLowNode(nodeArray);
 		}
 
 		lowestNode = null;
@@ -51,8 +53,9 @@ public class EquationTree
 	public void connectLowNode(EquationNode node)
 	{
 		lowestNode.connectLowNode(node);
-		lowestNode = node;
 		nodeArray.add(node);
+		node.getAllOfLowNode(nodeArray);
+		lowestNode = node.getLowestNode();
 	}
 
 	public void connectLowTree(EquationTree... trees)
