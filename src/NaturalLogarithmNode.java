@@ -1,13 +1,13 @@
 public class NaturalLogarithmNode extends LogarithmNode
 {
-    protected final int ANTILOGARITHM_POSITION = 0;
+    public final int ANTILOGARITHM_POSITION = 0;
 
     public NaturalLogarithmNode()
     {
         super();
     }
 
-    public NaturalLogarithmNode(EquationNode antilogarithm)
+    NaturalLogarithmNode(EquationNode antilogarithm)
     {
         this();
         lowNodes.add(ANTILOGARITHM_POSITION,antilogarithm);

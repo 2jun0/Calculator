@@ -1,13 +1,13 @@
 public class NaturalExponentialPowerNodeNode extends ConstBasalPowerNode
 {
-    protected final int EXPONENT_POSITION = 0;
+    public final int EXPONENT_POSITION = 0;
 
     public NaturalExponentialPowerNodeNode()
     {
         super();
     }
 
-    public NaturalExponentialPowerNodeNode(EquationNode antilogarithm)
+    NaturalExponentialPowerNodeNode(EquationNode antilogarithm)
     {
         this();
         lowNodes.add(EXPONENT_POSITION,antilogarithm);

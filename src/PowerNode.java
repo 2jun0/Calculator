@@ -1,14 +1,14 @@
 public class PowerNode extends EquationNode
 {
-    protected final int BASE_POSITION = 0;
-    protected final int EXPONENT_POSITION = 1;
+    public final int BASE_POSITION = 0;
+    public final int EXPONENT_POSITION = 1;
 
     protected PowerNode()
     {
         super();
     }
 
-    public PowerNode(EquationNode base,EquationNode exponent)
+    PowerNode(EquationNode base, EquationNode exponent)
     {
         this();
         lowNodes.add(BASE_POSITION,base);

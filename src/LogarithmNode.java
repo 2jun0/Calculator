@@ -1,7 +1,7 @@
 public class LogarithmNode extends EquationNode
 {
-    protected final int BASE_POSITION = 0;
-    protected final int ANTILOGARITHM_POSITION = 1;
+    public final int BASE_POSITION = 0;
+    public final int ANTILOGARITHM_POSITION = 1;
 
     protected LogarithmNode()
     {

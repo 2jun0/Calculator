@@ -10,7 +10,7 @@ public class ConstExponentialPowerNode extends PowerNode
         super(base,constExponent);
     }
 
-    public ConstExponentialPowerNode(EquationNode base,double exponentValue)
+    ConstExponentialPowerNode(EquationNode base,double exponentValue)
     {
         this(base,new ConstValueNode(exponentValue));
     }
