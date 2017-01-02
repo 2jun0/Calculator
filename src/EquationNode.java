@@ -20,6 +20,13 @@ public abstract class EquationNode
 	}
 	@Override
 	protected abstract EquationNode clone();
+	public ArrayList<EquationNode> getLowNodes() {
+		return lowNodes;
+	}
+	public EquationNode getLowNode(int positino)
+	{
+		return lowNodes.get(positino);
+	}
 	protected void getAllOfLowNode(ArrayList<EquationNode> allOfLowNode)
 	{
 		for(EquationNode lowNode : this.lowNodes)
@@ -40,4 +47,22 @@ public abstract class EquationNode
 			return null;
 		}
 	}
+	protected boolean equalAllContent(EquationNode node) {
+		if(node.getClass().equals(this.getClass()))
+		{
+			for(int i = 0; i < lowNodes.size(); i++)
+			{
+				if(!lowNodes.get(i).equalAllContent(node.getLowNode(i)))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}else
+		{
+			return false;
+		}
+	}
+	protected abstract EquationNode simplify();
 }
