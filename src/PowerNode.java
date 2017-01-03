@@ -2,7 +2,7 @@ public class PowerNode extends EquationNode
 {
     public final int BASE_POSITION = 0;
     public final int EXPONENT_POSITION = 1;
-
+	
     protected PowerNode()
     {
         super();
