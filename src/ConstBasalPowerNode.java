@@ -1,12 +1,22 @@
+import java.util.ArrayList;
+
 public class ConstBasalPowerNode extends PowerNode
 {
-    protected ConstBasalPowerNode()
+    static
+    {
+
+    }
+
+    public ConstBasalPowerNode()
     {
         super();
     }
-    public ConstBasalPowerNode(ConstValueNode constBase, EquationNode exponent)
+    protected ConstBasalPowerNode(ConstValueNode constBase, EquationNode exponent)
     {
         super(constBase,exponent);
+    }
+    protected ConstBasalPowerNode(double constBaseValue, EquationNode exponent) {
+        this(new ConstValueNode(constBaseValue),exponent);
     }
 
     @Override

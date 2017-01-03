@@ -45,6 +45,32 @@ public class LogarithmNode extends EquationNode
         return lowNodes.get(ANTILOGARITHM_POSITION);
     }
 
+    @Override
+    protected EquationNode simplify() {
+        EquationNode simpleBaseNode = getBaseNode().simplify();
+        EquationNode simpleAntilogarithmNode = getAntilogarithmNode().simplify();
+        boolean isBaseConst = simpleBaseNode.getClass().equals(ConstValueNode.class);
+        boolean isAntilogarithmConst = simpleAntilogarithmNode.getClass().equals(ConstValueNode.class);
+
+        if(isBaseConst&&isAntilogarithmConst)
+        {
+            return new ConstValueNode((new LogarithmNode(simpleBaseNode,simpleAntilogarithmNode)).calculate(null));//create calculable power node and create const value node with calculated value
+        }
+
+        LogarithmNode simpleClone = null;
+        try {
+            simpleClone = this.getClass().newInstance();
+            simpleClone.connectLowNode(this.BASE_POSITION,simpleBaseNode);
+            simpleClone.connectLowNode(this.ANTILOGARITHM_POSITION,simpleAntilogarithmNode);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } finally {
+            return simpleClone;
+        }
+    }
+
     protected double log(double base, double antilogarithm)
     {
         return Math.log(antilogarithm)/Math.log(base);

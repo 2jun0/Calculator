@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 public class MultiplyBundleNode extends EquationNode
 {
 	public MultiplyBundleNode()
@@ -91,5 +92,29 @@ public class MultiplyBundleNode extends EquationNode
 		return new MultiplyBundleNode(simpleLowNodes.toArray(new EquationNode[simpleLowNodes.size()]));
 	}
 
+	@Override
+	protected boolean equalAllContent(EquationNode node) {
+		if(node.getClass().equals(this.getClass()))
+		{
+			for(EquationNode lowNode1 : lowNodes)
+			{
+				boolean isEqaulAllContent = false;
 
+				for(EquationNode lowNode2 : node.getLowNodes())
+				{
+					isEqaulAllContent = (isEqaulAllContent|lowNode1.equalAllContent(lowNode2));
+				}
+
+				if(!isEqaulAllContent)
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}else
+		{
+			return false;
+		}
+	}
 }

@@ -55,4 +55,38 @@ public class PowerNode extends EquationNode
     protected EquationNode clone() {
         return new PowerNode(getBaseNode().clone(),getExponentNode().clone());
     }
+
+    @Override
+    protected EquationNode simplify() {
+        EquationNode simpleBaseNode = getBaseNode().simplify();
+        EquationNode simpleExponentNode = getExponentNode().simplify();
+        boolean isBaseConst = simpleBaseNode.getClass().equals(ConstValueNode.class);
+        boolean isExponentConst = simpleExponentNode.getClass().equals(ConstValueNode.class);
+
+        if(isBaseConst&&isExponentConst)
+        {
+            return new ConstValueNode((new PowerNode(simpleBaseNode,simpleExponentNode)).calculate(null));//create calculable power node and create const value node with calculated value
+        }else if(isBaseConst)//also !isExponentConst
+        {
+            double baseValue = ((ConstValueNode)simpleBaseNode).getValue();
+            return new ConstBasalPowerNode(baseValue,simpleExponentNode);
+        }else if(isExponentConst)//also !isBaseConst
+        {
+            double exponentValue = ((ConstValueNode)simpleExponentNode).getValue();
+            return new ConstExponentialPowerNode(simpleBaseNode,exponentValue);
+        }
+
+        PowerNode simpleClone = null;
+        try {
+            simpleClone = this.getClass().newInstance();
+            simpleClone.connectLowNode(this.BASE_POSITION,simpleBaseNode);
+            simpleClone.connectLowNode(this.EXPONENT_POSITION,simpleExponentNode);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } finally {
+            return simpleClone;
+        }
+    }
 }

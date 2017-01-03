@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Calculator
 {
 	private static Calculator myCalculator = null;
@@ -16,7 +14,7 @@ public class Calculator
 	
 	private Calculator()
 	{
-	    //empty
+		//empty
 	}
 
 	public double calculate(EquationTree tree,UnknownValue... unknownValues)

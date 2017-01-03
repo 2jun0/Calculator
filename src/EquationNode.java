@@ -18,6 +18,9 @@ public abstract class EquationNode
 	{
 		this.lowNodes.add(node);
 	}
+	protected void connectLowNode(int position, EquationNode node){
+		this.lowNodes.add(position,node);
+	}
 	@Override
 	protected abstract EquationNode clone();
 	public ArrayList<EquationNode> getLowNodes() {
@@ -47,12 +50,13 @@ public abstract class EquationNode
 			return null;
 		}
 	}
+
 	protected boolean equalAllContent(EquationNode node) {
 		if(node.getClass().equals(this.getClass()))
 		{
-			for(int i = 0; i < lowNodes.size(); i++)
+			for(int i = 0; i < this.lowNodes.size(); i++)
 			{
-				if(!lowNodes.get(i).equalAllContent(node.getLowNode(i)))
+				if(!this.lowNodes.get(i).equalAllContent(node.getLowNode(i)))
 				{
 					return false;
 				}
@@ -64,5 +68,6 @@ public abstract class EquationNode
 			return false;
 		}
 	}
+
 	protected abstract EquationNode simplify();
 }

@@ -1,17 +1,16 @@
 public class ConstExponentialPowerNode extends PowerNode
 {
-    protected ConstExponentialPowerNode()
+    public ConstExponentialPowerNode()
     {
         super();
     }
 
-    public ConstExponentialPowerNode(EquationNode base,ConstValueNode constExponent)
+    protected ConstExponentialPowerNode(EquationNode base,ConstValueNode constExponent)
     {
         super(base,constExponent);
     }
 
-    ConstExponentialPowerNode(EquationNode base,double exponentValue)
-    {
+    protected ConstExponentialPowerNode(EquationNode base,double exponentValue) {
         this(base,new ConstValueNode(exponentValue));
     }
 

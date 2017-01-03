@@ -34,8 +34,33 @@ public class UnknownValueNode extends EquationNode
 		}
 	}
 
+	public int getId() {
+		return id;
+	}
+
 	@Override
 	protected EquationNode clone() {
 		return new UnknownValueNode(id);
+	}
+
+	@Override
+	protected boolean equalAllContent(EquationNode node) {
+		if(super.equalAllContent(node))
+		{
+			if(((UnknownValueNode)node).getId() == id)
+			{
+				return true;
+			}else
+			{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+
+	@Override
+	protected EquationNode simplify() {
+		return clone();
 	}
 }

@@ -42,4 +42,15 @@ public class NaturalLogarithmNode extends LogarithmNode
     protected EquationNode clone() {
         return new NaturalLogarithmNode(getAntilogarithmNode());
     }
+
+    @Override
+    protected EquationNode simplify() {
+        EquationNode simpleAntilogarithm = getAntilogarithmNode().simplify();
+        if(simpleAntilogarithm.getClass().equals(ConstValueNode.class))
+        {
+            return new ConstValueNode((new NaturalLogarithmNode(simpleAntilogarithm)).calculate(null));
+        }
+
+        return new NaturalExponentialPowerNodeNode(simpleAntilogarithm);
+    }
 }

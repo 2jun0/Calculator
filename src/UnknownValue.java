@@ -28,4 +28,21 @@ public class UnknownValue
 	{
 		return id;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj.getClass().equals(UnknownValue.class))
+		{
+			UnknownValue unknownValue = (UnknownValue)obj;
+			if(unknownValue.getId() == id&&unknownValue.getValue() == value)
+			{
+				return true;
+			}else{
+				return false;
+			}
+		}else
+		{
+			return false;
+		}
+	}
 }

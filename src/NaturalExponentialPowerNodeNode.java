@@ -43,4 +43,15 @@ public class NaturalExponentialPowerNodeNode extends ConstBasalPowerNode
 
         return naturalExponentialPowerNode;
     }
+
+    @Override
+    protected EquationNode simplify() {
+        EquationNode simpleExponent = getExponentNode().simplify();
+        if(simpleExponent.getClass().equals(ConstValueNode.class))
+        {
+            return new ConstValueNode((new NaturalExponentialPowerNodeNode(simpleExponent)).calculate(null));
+        }
+
+        return new NaturalExponentialPowerNodeNode(simpleExponent);
+    }
 }
