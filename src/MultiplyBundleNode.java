@@ -109,7 +109,24 @@ public class MultiplyBundleNode extends EquationNode
 
 		//PlusBundleNode
 		if(simpleLowNodeMap.containsKey(PowerNode.class))
-			simplifyPlusBundleNode(simpleLowNodeMap.get(PlusBundleNode.class),simpleLowNodes);
+			simplifyPlusBundleNodes(simpleLowNodeMap.get(PlusBundleNode.class),simpleLowNodes);
+
+		//Others
+		if(simpleLowNodeMap.containsKey(UnknownValueNode.class))
+			simplifyOtherNodes(simpleLowNodeMap.get(UnknownValueNode.class),simpleLowNodes);
+
+		if(simpleLowNodeMap.containsKey(NaturalLogarithmNode.class))
+			simplifyOtherNodes(simpleLowNodeMap.get(NaturalLogarithmNode.class),simpleLowNodes);
+
+		if(simpleLowNodeMap.containsKey(LogarithmNode.class))
+			simplifyOtherNodes(simpleLowNodeMap.get(LogarithmNode.class),simpleLowNodes);
+
+		//?
+		if(simpleLowNodeMap.containsKey(ConstExponentialPowerNode.class))
+			simplifyOtherNodes(simpleLowNodeMap.get(ConstExponentialPowerNode.class),simpleLowNodes);
+
+		if(simpleLowNodeMap.containsKey(MultiplyBundleNode.class))
+			simplifyOtherNodes(simpleLowNodeMap.get(MultiplyBundleNode.class),simpleLowNodes);
 
 		return new MultiplyBundleNode(simpleLowNodes);
 	}
@@ -120,7 +137,7 @@ public class MultiplyBundleNode extends EquationNode
 
 	}
 
-	private void simplifyPlusBundleNode(ArrayList<EquationNode> plusBundleNodes,ArrayList<EquationNode> simpleLowNodes)
+	private void simplifyPlusBundleNodes(ArrayList<EquationNode> plusBundleNodes, ArrayList<EquationNode> simpleLowNodes)
 	{
 		//PlusBundleNode
 		ArrayList<EquationNode> simpleBundleLowNode = new ArrayList<EquationNode>();
@@ -187,6 +204,12 @@ public class MultiplyBundleNode extends EquationNode
 			MultiplyBundleNode exponentBundle = new MultiplyBundleNode(powerLowNodeMap.get(powerKeyNode));
 			simpleLowNodes.add((new PowerNode(powerKeyNode,exponentBundle.simplify())).simplify());
 		}
+	}
+
+	private void simplifyOtherNodes(ArrayList<EquationNode> otherNodes,ArrayList<EquationNode> simpleLowNodes)
+	{
+		//Others
+		Collections.addAll(simpleLowNodes,otherNodes.toArray(new EquationNode[otherNodes.size()]));
 	}
 
 	@Override
