@@ -1,13 +1,13 @@
-public class NaturalExponentialPowerNodeNode extends ConstBasalPowerNode
+public class NaturalBasalPowerNode extends ConstBasalPowerNode
 {
     public final int EXPONENT_POSITION = 0;
 
-    public NaturalExponentialPowerNodeNode()
+    public NaturalBasalPowerNode()
     {
         super();
     }
 
-    NaturalExponentialPowerNodeNode(EquationNode antilogarithm)
+    NaturalBasalPowerNode(EquationNode antilogarithm)
     {
         this();
         lowNodes.add(EXPONENT_POSITION,antilogarithm);
@@ -38,7 +38,7 @@ public class NaturalExponentialPowerNodeNode extends ConstBasalPowerNode
     @Override
     protected EquationNode clone()
     {
-        NaturalExponentialPowerNodeNode naturalExponentialPowerNode = new NaturalExponentialPowerNodeNode();
+        NaturalBasalPowerNode naturalExponentialPowerNode = new NaturalBasalPowerNode();
         naturalExponentialPowerNode.connectLowNode(getExponentNode().clone());
 
         return naturalExponentialPowerNode;
@@ -49,9 +49,9 @@ public class NaturalExponentialPowerNodeNode extends ConstBasalPowerNode
         EquationNode simpleExponent = getExponentNode().simplify();
         if(simpleExponent.getClass().equals(ConstValueNode.class))
         {
-            return new ConstValueNode((new NaturalExponentialPowerNodeNode(simpleExponent)).calculate(null));
+            return new ConstValueNode((new NaturalBasalPowerNode(simpleExponent)).calculate(null));
         }
 
-        return new NaturalExponentialPowerNodeNode(simpleExponent);
+        return new NaturalBasalPowerNode(simpleExponent);
     }
 }

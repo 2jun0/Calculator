@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public abstract class EquationNode
 {
@@ -21,14 +22,23 @@ public abstract class EquationNode
 	protected void connectLowNode(int position, EquationNode node){
 		this.lowNodes.add(position,node);
 	}
+	protected void connectLowNodes(EquationNode... nodes){
+		Collections.addAll(this.lowNodes,nodes);
+	}
+	protected void connectLowNodes(ArrayList<EquationNode> nodes){
+		connectLowNodes(nodes.toArray(new EquationNode[nodes.size()]));
+	}
 	@Override
 	protected abstract EquationNode clone();
 	public ArrayList<EquationNode> getLowNodes() {
-		return lowNodes;
+		return this.lowNodes;
+	}
+	public int getLowNodeSize(){
+		return this.lowNodes.size();
 	}
 	public EquationNode getLowNode(int positino)
 	{
-		return lowNodes.get(positino);
+		return this.lowNodes.get(positino);
 	}
 	protected void getAllOfLowNode(ArrayList<EquationNode> allOfLowNode)
 	{

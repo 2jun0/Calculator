@@ -51,6 +51,6 @@ public class NaturalLogarithmNode extends LogarithmNode
             return new ConstValueNode((new NaturalLogarithmNode(simpleAntilogarithm)).calculate(null));
         }
 
-        return new NaturalExponentialPowerNodeNode(simpleAntilogarithm);
+        return new NaturalBasalPowerNode(simpleAntilogarithm);
     }
 }

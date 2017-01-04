@@ -6,7 +6,16 @@ public class PlusBundleNode extends EquationNode
 	{
 		super();
 	}
-	
+	public PlusBundleNode(EquationNode... nodes){
+		this();
+		connectLowNodes(nodes);
+	}
+	public PlusBundleNode(ArrayList<EquationNode> nodes)
+	{
+		this();
+		connectLowNodes(nodes);
+	}
+
 	@Override
 	protected double calculate(UnknownValue[] value)
 	{

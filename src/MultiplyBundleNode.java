@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 
 public class MultiplyBundleNode extends EquationNode
@@ -11,7 +12,12 @@ public class MultiplyBundleNode extends EquationNode
 	protected MultiplyBundleNode(EquationNode... nodes)
 	{
 		this();
-		Collections.addAll(lowNodes,nodes);
+		connectLowNodes(nodes);
+	}
+	protected MultiplyBundleNode(ArrayList<EquationNode> nodes)
+	{
+		this();
+		connectLowNodes(nodes);
 	}
 	@Override
 	protected double calculate(UnknownValue[] value)
@@ -64,32 +70,123 @@ public class MultiplyBundleNode extends EquationNode
 	@Override
 	protected EquationNode simplify()
 	{
-		ArrayList<EquationNode> simpleLowNodes = new ArrayList<EquationNode>();
+		ArrayList<EquationNode> simpleLowNodes = new ArrayList<EquationNode>();//return
+		HashMap<Class<? extends EquationNode>,ArrayList<EquationNode>> simpleLowNodeMap = new HashMap<Class<? extends EquationNode>,ArrayList<EquationNode>>();
 
-		double constValue = 1;
 		EquationNode simpleLowNode = null;
 		for(EquationNode node : lowNodes)
 		{
 			simpleLowNode = node.simplify();
-			if(simpleLowNode.getClass().equals(ConstValueNode.class))
+			if(!simpleLowNodeMap.containsKey(simpleLowNode.getClass()))
 			{
-				constValue *= ((ConstValueNode)simpleLowNode).getValue();
-			}else if(simpleLowNode.getClass().equals(PowerNode.class))
-			{
-
-			}else {
-				simpleLowNodes.add(simpleLowNode);
+				simpleLowNodeMap.put(simpleLowNode.getClass(),new ArrayList<EquationNode>());
 			}
+
+			//exception
+
+
+			simpleLowNodeMap.get(simpleLowNode.getClass()).add(simpleLowNode);
 		}
 
-		if(constValue == 0) {
-			return new ConstValueNode(0);
+		//ConstValueNode
+		if(simpleLowNodeMap.containsKey(ConstValueNode.class))
+			if(!simplifyConstValueNodes(simpleLowNodeMap.get(ConstValueNode.class),simpleLowNodes))
+			{
+				return new ConstValueNode(0);
+			}
+
+		//PowerNode
+		if(simpleLowNodeMap.containsKey(PowerNode.class))
+			simplifyPowerNodes(simpleLowNodeMap.get(PowerNode.class),simpleLowNodes);
+
+		//NaturalBasalPowerNode
+		if(simpleLowNodeMap.containsKey(NaturalBasalPowerNode.class))
+			simplifyNaturalBasalPowerNodes(simpleLowNodeMap.get(PowerNode.class),simpleLowNodes);
+
+		//ConstBasalPowerNode
+		if(simpleLowNodeMap.containsKey(ConstBasalPowerNode.class))
+			simplifyConstBasalPowerNodes(simpleLowNodeMap.get(ConstBasalPowerNode.class),simpleLowNodes);
+
+		//PlusBundleNode
+		if(simpleLowNodeMap.containsKey(PowerNode.class))
+			simplifyPlusBundleNode(simpleLowNodeMap.get(PlusBundleNode.class),simpleLowNodes);
+
+		return new MultiplyBundleNode(simpleLowNodes);
+	}
+
+	private void simplifyConstBasalPowerNodes(ArrayList<EquationNode> constBasalPowerNodes,ArrayList<EquationNode> simpleLowNodes)
+	{
+		//ConstBasalPowerNode
+
+	}
+
+	private void simplifyPlusBundleNode(ArrayList<EquationNode> plusBundleNodes,ArrayList<EquationNode> simpleLowNodes)
+	{
+		//PlusBundleNode
+		ArrayList<EquationNode> simpleBundleLowNode = new ArrayList<EquationNode>();
+		for(EquationNode node : plusBundleNodes)
+		{
+			PlusBundleNode plusBundleNode = (PlusBundleNode)node;
+			Collections.addAll(simpleBundleLowNode,plusBundleNode.getLowNodes().toArray(new EquationNode[plusBundleNode.getLowNodeSize()]));
+		}
+
+		simpleBundleLowNode.add((new PlusBundleNode(simpleBundleLowNode)).simplify());
+	}
+
+	private void simplifyNaturalBasalPowerNodes(ArrayList<EquationNode> naturalBasalPowerNodes,ArrayList<EquationNode> simpleLowNodes)
+	{
+		//NaturalBasalPowerNode
+		MultiplyBundleNode naturalBasalExponentBundle = new MultiplyBundleNode(naturalBasalPowerNodes);
+		simpleLowNodes.add((new NaturalBasalPowerNode(naturalBasalExponentBundle)).simplify());
+	}
+
+	private boolean simplifyConstValueNodes(ArrayList<EquationNode> constValueNodes,ArrayList<EquationNode> simpleLowNodes)
+	{
+		double constValue = (new MultiplyBundleNode(constValueNodes)).calculate(null);
+		if(constValue == 0)
+		{
+			return false;
 		}else if(constValue != 1)
 		{
 			simpleLowNodes.add(new ConstValueNode(constValue));
 		}
 
-		return new MultiplyBundleNode(simpleLowNodes.toArray(new EquationNode[simpleLowNodes.size()]));
+		return true;
+	}
+
+	private void simplifyPowerNodes(ArrayList<EquationNode> powerNodes,ArrayList<EquationNode> simpleLowNodes)
+	{
+		//PowerNode
+		HashMap<EquationNode,ArrayList<EquationNode>> powerLowNodeMap = new HashMap<EquationNode,ArrayList<EquationNode>>();
+		for(EquationNode node : powerNodes)
+		{
+			PowerNode powerNode = (PowerNode)node;
+			EquationNode[] keyNodes = powerLowNodeMap.keySet().toArray(new EquationNode[powerLowNodeMap.keySet().size()]);
+
+			boolean hasKey = false;
+			for(EquationNode keyNode : keyNodes)
+			{
+				if(powerNode.getBaseNode().equalAllContent(keyNode))
+				{
+					hasKey = true;
+					powerLowNodeMap.get(keyNode).add(powerNode.getExponentNode());
+				}
+			}
+
+			if(!hasKey)
+			{
+				ArrayList<EquationNode> exponentNodes = new ArrayList<EquationNode>();
+				exponentNodes.add(powerNode.getExponentNode());
+				powerLowNodeMap.put(powerNode.getBaseNode(),exponentNodes);
+			}
+		}
+
+		EquationNode[] powerKeyNodes = powerLowNodeMap.keySet().toArray(new EquationNode[powerLowNodeMap.keySet().size()]);
+		for(EquationNode powerKeyNode : powerKeyNodes)
+		{
+			MultiplyBundleNode exponentBundle = new MultiplyBundleNode(powerLowNodeMap.get(powerKeyNode));
+			simpleLowNodes.add((new PowerNode(powerKeyNode,exponentBundle.simplify())).simplify());
+		}
 	}
 
 	@Override
