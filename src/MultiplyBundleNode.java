@@ -107,9 +107,13 @@ public class MultiplyBundleNode extends EquationNode
 		if(simpleLowNodeMap.containsKey(ConstBasalPowerNode.class))
 			simplifyConstBasalPowerNodes(simpleLowNodeMap.get(ConstBasalPowerNode.class),simpleLowNodes);
 
-		//PlusBundleNode
-		if(simpleLowNodeMap.containsKey(PowerNode.class))
-			simplifyPlusBundleNodes(simpleLowNodeMap.get(PlusBundleNode.class),simpleLowNodes);
+		//ConstExponentialNode
+		if(simpleLowNodeMap.containsKey(ConstExponentialPowerNode.class))
+			simplifyConstExponentalPowerNodes(simpleLowNodeMap.get(ConstExponentialPowerNode.class),simpleLowNodes);
+
+		//MultiplyBundleNode
+		if(simpleLowNodeMap.containsKey(MultiplyBundleNode.class))
+			simplifyMultiplyBundleNodes(simpleLowNodeMap.get(MultiplyBundleNode.class),simpleLowNodes);
 
 		//Others
 		if(simpleLowNodeMap.containsKey(UnknownValueNode.class))
@@ -121,39 +125,85 @@ public class MultiplyBundleNode extends EquationNode
 		if(simpleLowNodeMap.containsKey(LogarithmNode.class))
 			simplifyOtherNodes(simpleLowNodeMap.get(LogarithmNode.class),simpleLowNodes);
 
-		//?
-		if(simpleLowNodeMap.containsKey(ConstExponentialPowerNode.class))
-			simplifyOtherNodes(simpleLowNodeMap.get(ConstExponentialPowerNode.class),simpleLowNodes);
-
-		if(simpleLowNodeMap.containsKey(MultiplyBundleNode.class))
-			simplifyOtherNodes(simpleLowNodeMap.get(MultiplyBundleNode.class),simpleLowNodes);
+		if(simpleLowNodeMap.containsKey(PowerNode.class))
+			simplifyOtherNodes(simpleLowNodeMap.get(PlusBundleNode.class),simpleLowNodes);
 
 		return new MultiplyBundleNode(simpleLowNodes);
+	}
+
+	private void simplifyMultiplyBundleNodes(ArrayList<EquationNode> multiplyBundleNodes,ArrayList<EquationNode> simpleLowNodes)
+	{
+		//MultiplyBundleNode
+		MultiplyBundleNode multiplyBundleNode = new MultiplyBundleNode();
+		for(EquationNode node : multiplyBundleNodes)
+		{
+			multiplyBundleNode.connectLowNodes(((MultiplyBundleNode)node).getLowNodes());
+		}
+
+		simpleLowNodes.add(multiplyBundleNode.simplify());
 	}
 
 	private void simplifyConstBasalPowerNodes(ArrayList<EquationNode> constBasalPowerNodes,ArrayList<EquationNode> simpleLowNodes)
 	{
 		//ConstBasalPowerNode
-
-	}
-
-	private void simplifyPlusBundleNodes(ArrayList<EquationNode> plusBundleNodes, ArrayList<EquationNode> simpleLowNodes)
-	{
-		//PlusBundleNode
-		ArrayList<EquationNode> simpleBundleLowNode = new ArrayList<EquationNode>();
-		for(EquationNode node : plusBundleNodes)
+		HashMap<Double,ArrayList<EquationNode>> powerLowNodeMap = new HashMap<Double,ArrayList<EquationNode>>();
+		for(EquationNode node : constBasalPowerNodes)
 		{
-			PlusBundleNode plusBundleNode = (PlusBundleNode)node;
-			Collections.addAll(simpleBundleLowNode,plusBundleNode.getLowNodes().toArray(new EquationNode[plusBundleNode.getLowNodeSize()]));
+			ConstBasalPowerNode constBasalPowerNode = (ConstBasalPowerNode)node;
+
+			double baseValue = constBasalPowerNode.getBaseNode().getValue();
+			if(!powerLowNodeMap.containsKey(baseValue))
+			{
+				powerLowNodeMap.put(baseValue,new ArrayList<EquationNode>());
+			}
+
+			powerLowNodeMap.get(baseValue).add(constBasalPowerNode.getExponentNode());
 		}
 
-		simpleBundleLowNode.add((new PlusBundleNode(simpleBundleLowNode)).simplify());
+		Double[] keys = powerLowNodeMap.keySet().toArray(new Double[powerLowNodeMap.keySet().size()]);
+		for(double key : keys)
+		{
+			PlusBundleNode exponentBundle = new PlusBundleNode(powerLowNodeMap.get(key));
+			simpleLowNodes.add((new ConstBasalPowerNode(key,exponentBundle)).simplify());
+		}
+	}
+
+	private void simplifyConstExponentalPowerNodes(ArrayList<EquationNode> constExponentialPowerNodes, ArrayList<EquationNode> simpleLowNodes)
+	{
+		//ConstExponentialNode
+		HashMap<EquationNode,Double> constExponentialPowerLowNodeMap = new HashMap<EquationNode,Double>();
+		for(EquationNode node : constExponentialPowerNodes)
+		{
+			ConstExponentialPowerNode constExponentialPowerNode = (ConstExponentialPowerNode)node;
+			EquationNode[] keyNodes = constExponentialPowerLowNodeMap.keySet().toArray(new EquationNode[constExponentialPowerLowNodeMap.keySet().size()]);
+
+			boolean hasKey = false;
+			for(EquationNode keyNode : keyNodes)
+			{
+				if(constExponentialPowerNode.getBaseNode().equalAllContent(keyNode))
+				{
+					hasKey = true;
+					constExponentialPowerLowNodeMap.put(keyNode,constExponentialPowerLowNodeMap.get(keyNode)+constExponentialPowerNode.getExponentNode().getValue());
+				}
+			}
+
+			if(!hasKey)
+			{
+				constExponentialPowerLowNodeMap.put(constExponentialPowerNode.getBaseNode(),constExponentialPowerNode.getExponentNode().getValue());
+			}
+		}
+
+		EquationNode[] powerKeyNodes = constExponentialPowerLowNodeMap.keySet().toArray(new EquationNode[constExponentialPowerLowNodeMap.keySet().size()]);
+		for(EquationNode powerKeyNode : powerKeyNodes)
+		{
+			simpleLowNodes.add((new ConstExponentialPowerNode(powerKeyNode,constExponentialPowerLowNodeMap.get(powerKeyNode))).simplify());
+		}
 	}
 
 	private void simplifyNaturalBasalPowerNodes(ArrayList<EquationNode> naturalBasalPowerNodes,ArrayList<EquationNode> simpleLowNodes)
 	{
 		//NaturalBasalPowerNode
-		MultiplyBundleNode naturalBasalExponentBundle = new MultiplyBundleNode(naturalBasalPowerNodes);
+		PlusBundleNode naturalBasalExponentBundle = new PlusBundleNode(naturalBasalPowerNodes);
 		simpleLowNodes.add((new NaturalBasalPowerNode(naturalBasalExponentBundle)).simplify());
 	}
 
@@ -201,8 +251,8 @@ public class MultiplyBundleNode extends EquationNode
 		EquationNode[] powerKeyNodes = powerLowNodeMap.keySet().toArray(new EquationNode[powerLowNodeMap.keySet().size()]);
 		for(EquationNode powerKeyNode : powerKeyNodes)
 		{
-			MultiplyBundleNode exponentBundle = new MultiplyBundleNode(powerLowNodeMap.get(powerKeyNode));
-			simpleLowNodes.add((new PowerNode(powerKeyNode,exponentBundle.simplify())).simplify());
+			PlusBundleNode exponentBundle = new PlusBundleNode(powerLowNodeMap.get(powerKeyNode));
+			simpleLowNodes.add((new PowerNode(powerKeyNode,exponentBundle)).simplify());
 		}
 	}
 

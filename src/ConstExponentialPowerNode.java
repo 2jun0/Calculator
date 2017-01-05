@@ -24,6 +24,11 @@ public class ConstExponentialPowerNode extends PowerNode
     }
 
     @Override
+    protected ConstValueNode getExponentNode() {
+        return (ConstValueNode)super.getExponentNode();
+    }
+
+    @Override
     protected EquationNode clone() {
         return new ConstExponentialPowerNode(getBaseNode(),(ConstValueNode) getExponentNode());
     }

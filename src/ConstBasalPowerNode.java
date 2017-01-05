@@ -20,6 +20,11 @@ public class ConstBasalPowerNode extends PowerNode
     }
 
     @Override
+    protected ConstValueNode getBaseNode() {
+        return (ConstValueNode)super.getBaseNode();
+    }
+
+    @Override
     protected double calculate(UnknownValue... value) {
         return super.calculate(value);
     }
