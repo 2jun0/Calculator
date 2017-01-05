@@ -82,9 +82,6 @@ public class MultiplyBundleNode extends EquationNode
 				simpleLowNodeMap.put(simpleLowNode.getClass(),new ArrayList<EquationNode>());
 			}
 
-			//exception
-
-
 			simpleLowNodeMap.get(simpleLowNode.getClass()).add(simpleLowNode);
 		}
 
